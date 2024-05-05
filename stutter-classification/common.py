@@ -7,11 +7,11 @@ import numpy as np
 from progress.bar import Bar
 from sklearn.model_selection import train_test_split
 
-LABELS_PATH = "../input/sep28k/SEP-28k_labels.csv"
+LABELS_PATH = "../../input/sep28k/SEP-28k_labels.csv"
 
-CLIPS_DIR = "../input/sep28k/clips/stuttering-clips/clips/"
+CLIPS_DIR = "../../input/sep28k/clips/stuttering-clips/clips/"
 
-MFCC_PATH = "sep28k-mfcc.csv"
+MFCC_PATH = "../data/sep28k-mfcc.csv"
 
 TYPE_LABELS = [
     "NaturalPause",

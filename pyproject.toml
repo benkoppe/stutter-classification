@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "stutter-classification"
+version = "0.1.0"
+description = ""
+authors = ["benkoppe <bentastic1@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.2.2"
+librosa = "^0.10.2"
+numpy = "^1.26.4"
+progress = "^1.6"
+scikit-learn = "^1.4.2"
+ipykernel = "^6.29.4"
+joblib = "^1.4.2"
+sounddevice = "^0.4.6"
+sip = "^6.8.3"
+pyqt5-sip = "^12.13.0"
+pyqt6 = "^6.7.0"
+qt-material = "^2.14"
+speechrecognition = "^3.10.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
