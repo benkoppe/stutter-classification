@@ -1,39 +1,43 @@
 import os
 from pathlib import Path
 import pandas as pd
-from progress.bar import Bar
+from tqdm import tqdm
 
 from stutter_classification.data.feature_extraction import extract_mfccs_from_file
+
 
 FILE_DIR = Path(__file__).resolve().parent
 DATA_DIR = FILE_DIR.parent.parent / "data"
 
-MFCC_PATH = DATA_DIR / "sep28k-mfcc.csv"
+MFCC_PREFIX = "sep28k-mfcc"
 
 LABELS_PATH = DATA_DIR / "SEP-28k_labels.csv"
 CLIPS_DIR = DATA_DIR / "clips/"
 
 
-def get_sep28k_mfcc_df():
-    if os.path.exists(MFCC_PATH):
-        return pd.read_csv(MFCC_PATH)
+def get_sep28k_mfcc_df(n_mfccs=13):
+    mfcc_path = DATA_DIR / f"{MFCC_PREFIX}-{n_mfccs}.csv"
 
-    mfcc_df = _get_sep28k_mfcc_df()
+    if os.path.exists(mfcc_path):
+        return pd.read_csv(mfcc_path)
+
+    mfcc_df = _get_sep28k_mfcc_df(n_mfccs=n_mfccs)
+    mfcc_df.to_csv(mfcc_path, index=False)
 
     return mfcc_df
 
 
-def _get_sep28k_mfcc_df():
+def _get_sep28k_mfcc_df(n_mfccs=13):
     sep28k_df, ignore_list = _get_sep28k_df()
 
     # MFCC feature extraction
     features = {}
 
-    for filename in Bar("Processing").iter(os.listdir(CLIPS_DIR)):
-        filename = filename[:-4]
-        if "FluencyBank" not in filename and ignore_list.count(filename + ".wav") == 0:
-            mfccs = extract_mfccs_from_file(CLIPS_DIR + filename + ".wav")
-            features[filename] = mfccs
+    for filename in tqdm(os.listdir(CLIPS_DIR)):
+        filetitle = filename[:-4]
+        if "FluencyBank" not in filename and ignore_list.count(filename) == 0:
+            mfccs = extract_mfccs_from_file(CLIPS_DIR / filename, n_mfccs=n_mfccs)
+            features[filetitle] = mfccs
 
     # making dataset from features
     df_features = pd.DataFrame.from_dict(features)
@@ -49,7 +53,7 @@ def _get_sep28k_mfcc_df():
     df_final = df_final[df_final.PoorAudioQuality == 0]
     df_final = df_final[df_final.DifficultToUnderstand == 0]
     df_final = df_final[df_final.Music == 0]
-    df_final = df_final[df_final.NoSpeech] == 0
+    df_final = df_final[df_final.NoSpeech == 0]
 
     return df_final
 
@@ -66,7 +70,7 @@ def _get_sep28k_df():
     # put empty filenames in a list and ignore while feature extracting/training
     ignore_list = []
     for filename in os.listdir(CLIPS_DIR):
-        file_path = CLIPS_DIR + filename
+        file_path = CLIPS_DIR / filename
         if "FluencyBank" not in filename:
             if os.stat(file_path).st_size == 44:
                 ignore_list.append(filename)
