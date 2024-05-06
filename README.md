@@ -41,7 +41,9 @@ To run the GUI:
 
     Installation instructions for Poetry can be found [here](https://python-poetry.org/docs/).
 
-4. Run the GUI.
+   If you are having problems installing dependencies with Poetry, it is most likely an issue with PyAudio. See the [PyAudio PyPI page](https://pypi.org/project/PyAudio/) to fix.
+
+5. Run the GUI.
 
     First, `cd` into the project's gui directory:
 
