@@ -12,7 +12,7 @@ def extract_mfccs(audio, sample_rate, n_mfccs=13):
 
 def extract_mfccs_from_file(file_path, n_mfccs=13):
     audio, sample_rate = librosa.load(file_path, res_type="kaiser_fast", sr=None)
-    return extract_mfccs(audio, sample_rate, n_mfcc=n_mfccs)
+    return extract_mfccs(audio, sample_rate, n_mfccs=n_mfccs)
 
 
 def extract_single_mfcc_feature(audio, sample_rate, n_mfccs=13):
