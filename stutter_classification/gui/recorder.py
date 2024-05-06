@@ -106,7 +106,7 @@ class Recorder(QObject):
 
     def process_audio(self, audio):
         features = extract_single_mfcc_feature(
-            audio, SAMPLE_RATE, n_mfcc=self.model.n_mfcc
+            audio, SAMPLE_RATE, n_mfccs=self.model.n_mfccs
         )
         predictions = self.model.predict(features)
         # print the number of 1s in predictions

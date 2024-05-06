@@ -28,7 +28,7 @@ from recorder import Recorder
 from utils import make_labeled_combo_box, make_label, make_styled_label
 
 APP_TITLE = "Stutter Detector"
-WINDOW_GEOMETRY = (300, 300, 500, 700)
+WINDOW_GEOMETRY = (300, 300, 425, 725)
 
 BUTTON_START_LABEL = "Start Recording"
 BUTTON_STOP_LABEL = "Stop Recording"
