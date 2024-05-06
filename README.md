@@ -29,11 +29,13 @@ To run the GUI:
     python extract_clips.py --labels SEP-28k_labels.csv --wavs [WAV_DIR] --clips [PROJECT_DIR]/data/clips
     ```
 
-    Where `[PROJECT_DIR]` is the project's main directory that was created after cloning. `[PROJECT_DIR]/data` also currently contains the SEP-28k labels file. 
+    Where `[PROJECT_DIR]` is the project's main directory that was created after cloning. `[PROJECT_DIR]/data` also currently contains the SEP-28k labels file.
+    
+    This requires making some changes to the SEP-28k repository's code, such as replacing the `np.loadtxt` call in `download_audio.py` with `np.genfromtxt`. Other issues may occur from the deletion of the StrongVoices and Stuttering_Is_Cool subsets from the internet (they cannot be downloaded). However, skipping over these subsets should cause no problems.
     
     See the repository for more information on downloading these files.
 
-3. Download dependencies with [Poetry](https://python-poetry.org/):
+4. Download dependencies with [Poetry](https://python-poetry.org/):
 
     ```bash
     poetry install
