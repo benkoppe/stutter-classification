@@ -2,7 +2,11 @@ import sounddevice as sd
 from threading import Thread
 import librosa
 import numpy as np
-from joblib import load
+from functools import partial
+from sklearn.tree import DecisionTreeClassifier
+
+from stutter_classification.models.single_feature import SingleFeatureModel
+from stutter_classification.data.feature_extraction import extract_mfccs
 
 INPUT_WINDOW = 0.5  # seconds
 SAMPLE_RATE = 44100  # Hz
@@ -11,14 +15,21 @@ SAMPLE_RATE = 44100  # Hz
 class Recorder:
     def __init__(self):
         self.recording = False
-        self.model = load("../models/DecisionTreeClassifier.joblib")
+
+        sklearn_model = partial(DecisionTreeClassifier, criterion="gini")
+        self.model = SingleFeatureModel(sklearn_model, "Prolongation")
+        self.model.train()
 
     def start_recording(self):
+        if self.recording:
+            return
         self.recording = True
         print("Recording started...")
         self.record()
 
     def stop_recording(self):
+        if not self.recording:
+            return
         self.recording = False
         # kill recording thread
         self.kill_thread()
@@ -45,9 +56,7 @@ class Recorder:
             self.process_audio(recording.flatten())
 
     def process_audio(self, audio):
-        mfccs = np.mean(
-            librosa.feature.mfcc(y=audio, sr=SAMPLE_RATE, n_mfcc=13).T, axis=0
-        )
+        mfccs = extract_mfccs(audio, SAMPLE_RATE)
         features = mfccs.reshape(1, -1)
         predictions = self.model.predict(features)
         # print the number of 1s in predictions

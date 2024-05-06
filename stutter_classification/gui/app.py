@@ -30,7 +30,7 @@ class AudioRecorder(QMainWindow):
         self.setWindowTitle("Audio Recorder")
 
     def toggle_recording(self):
-        if self.btn.text() == "Start Recording":
+        if not self.recorder.recording:
             self.btn.setText("Stop Recording")
             self.recorder.start_recording()
         else:
