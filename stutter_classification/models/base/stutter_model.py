@@ -32,15 +32,24 @@ class StutterModel(ABC):
 
     model: BaseEstimator
     dataset: Dataset = None
+    n_mfccs: int
 
     def __init__(
         self,
         model: Type[BaseEstimator],
         random_state: int = None,
+        n_mfccs: int = 13,
     ):
         if random_state is not None:
             self.RANDOM_STATE = random_state
-        self.model = model(random_state=self.RANDOM_STATE)
+
+        # check if random_state is a kwarg of the model
+        if "random_state" in model().get_params().keys():
+            self.model = model(random_state=self.RANDOM_STATE)
+        else:
+            self.model = model()
+
+        self.n_mfccs = n_mfccs
 
     def predict(self, features: np.ndarray) -> np.ndarray:
         return self.model.predict(features)
