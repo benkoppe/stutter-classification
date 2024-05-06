@@ -33,10 +33,11 @@ def _get_sep28k_mfcc_df(n_mfccs=13):
     # MFCC feature extraction
     features = {}
 
-    for filename in tqdm(os.listdir(CLIPS_DIR)):
-        filetitle = filename[:-4]
+    for file_path in tqdm(file_paths_list(CLIPS_DIR)):
+        filetitle = file_path.stem
+        filename = file_path.name
         if "FluencyBank" not in filename and ignore_list.count(filename) == 0:
-            mfccs = extract_mfccs_from_file(CLIPS_DIR / filename, n_mfccs=n_mfccs)
+            mfccs = extract_mfccs_from_file(file_path, n_mfccs=n_mfccs)
             features[filetitle] = mfccs
 
     # making dataset from features
@@ -69,8 +70,8 @@ def _get_sep28k_df():
 
     # put empty filenames in a list and ignore while feature extracting/training
     ignore_list = []
-    for filename in os.listdir(CLIPS_DIR):
-        file_path = CLIPS_DIR / filename
+    for file_path in file_paths_list(CLIPS_DIR):
+        filename = file_path.name
         if "FluencyBank" not in filename:
             if os.stat(file_path).st_size == 44:
                 ignore_list.append(filename)
@@ -78,3 +79,10 @@ def _get_sep28k_df():
                 df = df[df.Name != filename]
 
     return df, ignore_list
+
+
+def file_paths_list(directory):
+    file_paths = [
+        Path(root) / file for root, _, files in os.walk(directory) for file in files
+    ]
+    return file_paths
