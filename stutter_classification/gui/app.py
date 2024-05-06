@@ -41,11 +41,11 @@ TRANSCRIPTION_BOX_SIZE = (350, 300)
 SEPARATION_SPACER_HEIGHT = 10
 
 MODEL_TYPE_OPTIONS = {
-    "Single Feature Model": SingleFeatureModel,
-    "All Features Model": AllFeaturesModel,
+    "Single Label Model": SingleFeatureModel,
+    "All Labels Model": AllFeaturesModel,
 }
 UNDERLYING_MODEL_OPTIONS = {
-    "DecisionTreeClassifier-gini": partial(DecisionTreeClassifier, criterion="gini"),
+    "DecisionTreeClassifier": partial(DecisionTreeClassifier, criterion="gini"),
     "RandomForestClassifier": RandomForestClassifier,
     "GradientBoostingClassifier": GradientBoostingClassifier,
     "SVC": SVC,
@@ -60,7 +60,7 @@ DEFAULT_N_MFCC = 13
 N_MFCC_LABEL = "Number of Feature Extraction (MFCC) Vectors: "
 UNDERLYING_MODEL_LABEL = "Underlying Model: "
 MODEL_TYPE_LABEL = "Model Type: "
-FEATURE_TYPE_LABEL = "Feature Name: "
+FEATURE_TYPE_LABEL = "Label Name: "
 
 MODEL_SCORE_LABEL_PREFIX = "Model Test Score: "
 
