@@ -12,6 +12,8 @@ Due to its size, the SEP-28k clips are not included in this repo. To make the mo
 
 MFCC-encoded vectors are also not included in this repo. When running a model for the first time, it will generate the vectors of size `n_mfccs` and save them in a file. This will take a while, but it will only happen once for each `n_mfccs` value.
 
+## Installation Instructions
+
 To run the GUI:
 
 1. Clone the repository:
